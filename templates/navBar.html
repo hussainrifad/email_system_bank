@@ -1,0 +1,55 @@
+<nav class="bg-gray-100 border-b border-gray-200">
+  <div class="container mx-auto flex flex-wrap items-center justify-between p-4">
+      <a class="text-xl font-semibold" href="{% url 'homepage' %}"><span class="text-3xl bg-gradient-to-r from-blue-700 via-yellow-600 to-indigo-400 text-transparent bg-clip-text">ArcticBank</span></a>
+      <button class="navbar-toggler block md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" onclick="document.getElementById('navbarSupportedContent').classList.toggle('hidden')">
+          <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M3 5a1 1 0 012 0h10a1 1 0 110 2H5a1 1 0 01-2 0zm0 4a1 1 0 012 0h10a1 1 0 110 2H5a1 1 0 01-2 0zm0 4a1 1 0 012 0h10a1 1 0 110 2H5a1 1 0 01-2 0z" clip-rule="evenodd"></path>
+          </svg>
+      </button>
+      <div class="hidden flex items-center gap-5 w-full md:flex md:w-auto" id="navbarSupportedContent">
+          <ul class="flex flex-col mt-4 space-y-1 md:flex-row md:space-y-0 md:space-x-5 md:mt-0">
+            {% if user.is_authenticated %}
+            <div class="text-md lg:flex-grow">
+                <a href="{% url 'transaction_report' %}" class="block mt-4 lg:inline-block lg:mt-0 text-blue-900 hover:text-red-900 hover:font-black mr-4">
+                    Report
+                </a>
+                <a href="{% url 'deposit_money' %}" class="block mt-4 lg:inline-block lg:mt-0 text-blue-900 hover:text-red-900 hover:font-black mr-4">
+                    Deposit
+                </a>
+                <a href="{% url 'withdraw_money' %}" class="block mt-4 lg:inline-block lg:mt-0 text-blue-900 hover:text-red-900 hover:font-black mr-4">
+                    Withdraw
+                </a>
+                <a href="{% url 'loan_request' %}" class="block mt-4 lg:inline-block lg:mt-0 text-blue-900 hover:text-red-900 hover:font-black mr-4">
+                    Loan Request
+                </a>
+                <a href="{% url 'send_money' %}" class="block mt-4 lg:inline-block lg:mt-0 text-blue-900 hover:text-red-900 hover:font-black mr-4">
+                    Send Money
+                </a>
+                <p>$ {{user.account.balance}}</p>
+            </div>
+            <li class="nav-item">
+                <a class="text-gray-700 hover:text-gray-900" aria-current="page" href="{% url 'profile' %}">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a  class="text-gray-700 hover:text-gray-900" aria-current="page" href="{% url 'logout' %}">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="text-gray-700 hover:text-gray-900" aria-current="page" href="{% url 'homepage' %}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="text-gray-700 hover:text-gray-900" aria-current="page" href="{% url 'registration' %}">Registration</a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="text-gray-700 hover:text-gray-900" aria-current="page" href="{% url 'login' %}">Login</a>
+            </li>
+            {% endif %}  
+          </ul>
+          <form class="flex items-center mt-4 space-y-2 md:mt-0 md:space-y-0 md:space-x-2" role="search">
+              <input class="form-input py-1 px-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn py-1 px-3 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300" type="submit">Search</button>
+          </form>
+      </div>
+  </div>
+</nav>

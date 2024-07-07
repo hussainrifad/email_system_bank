@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %} Home Page {% endblock %}
+{% block content %}
+    <div class="d-flex justify-between items-center">
+        {% for message in messages %}
+        <h1 class="text-red-900 text-center my-10">{{message}}</h1>
+        {% endfor %}
+    </div>
+    <h5>This is Home Page</h5>
+    
+    {{user.first_name}}
+    <p>{{user.account.account_no}}</p>
+{% endblock %}
