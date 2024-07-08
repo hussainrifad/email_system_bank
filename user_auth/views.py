@@ -5,6 +5,11 @@ from .forms import UserRegisterForm, UserUpdateForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
+from django.conf import settings
+from django.core.mail import send_mail
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
 
 # Create your views here.
 
@@ -49,3 +54,21 @@ def logOut(request):
         logout(request)
 
     return redirect('homepage')
+
+def changepassword(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data = request.POST)
+        if form.is_valid():
+            
+            subject = 'Password changed'
+            mes_send = 'password has been changed' 
+            email_from = settings.EMAIL_HOST_USER
+            send_mail(subject, mes_send, email_from, [request.user.email])
+            
+            form.save()
+            messages.success(request, 'Password changed successfully')
+            update_session_auth_hash(request=request, user=form.user)
+            return redirect('profile')
+    else:
+        form = PasswordChangeForm(user = request.user)
+    return render(request, 'change_password.html', {'form':form})

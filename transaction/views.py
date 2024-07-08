@@ -14,6 +14,8 @@ from .models import Transaction, SendMoney
 from user_auth.models import UserBankAccount
 from bank_info.constraints import NAME
 from bank_info.models import BankInfo
+from django.conf import settings
+from django.core.mail import send_mail
 
 class TransactionCreateMixin(LoginRequiredMixin, CreateView):
     template_name = 'transaction_form.html'
@@ -130,6 +132,17 @@ class SendMoneyView(LoginRequiredMixin, CreateView):
             account.balance -= amount # amount = 200, tar ager balance = 0 taka new balance = 0+200 = 200
             account2.balance += amount
 
+            subject_send = 'Sent money'
+            subject_revieve = 'Recieve money'
+
+            mes_send = f'{amount} sent to {account2.account_no} successfully' 
+            mes_receive = f'{amount} sent from {account.account_no} successfully' 
+
+            email_from = settings.EMAIL_HOST_USER
+
+            send_mail(subject_send, mes_send, email_from, [self.request.user.email])
+            send_mail(subject_revieve, mes_receive, email_from, [account2.user.email])
+            
             account.save(
                 update_fields=[
                     'balance'
